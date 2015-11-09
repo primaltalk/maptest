@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8
+            });
+            
+            $.getJSON( "maptest.php", function( data ) {
+                map.setCenter( new google.maps.LatLng( data['center'][0], data['center'][1] ) );
+                $.each( data['coordinates'], function( uid, coordinate ) {
+                    var position = new google.maps.LatLng( coordinate[0], coordinate[1] );
+                    var marker = new google.maps.Marker({
+                       position: position,
+                       map: map,
+                       title: uid
+                    });
+                });
+            });
+        }
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=<API Key Goes Here>&callback=initMap">
+    </script>
+  </body>
+</html>
